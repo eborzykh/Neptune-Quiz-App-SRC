@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_FUGR" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <AREAT>Neptune Quiz App: Trivia</AREAT>
+   <INCLUDES>
+    <SOBJ_NAME>LZNEPT_QZ_TRIVIATOP</SOBJ_NAME>
+    <SOBJ_NAME>SAPLZNEPT_QZ_TRIVIA</SOBJ_NAME>
+   </INCLUDES>
+   <FUNCTIONS>
+    <item>
+     <FUNCNAME>ZNEPT_QZ_F4_TRIVIA</FUNCNAME>
+     <CHANGING>
+      <RSCHA>
+       <PARAMETER>SHLP</PARAMETER>
+       <TYP>SHLP_DESCR</TYP>
+      </RSCHA>
+      <RSCHA>
+       <PARAMETER>CALLCONTROL</PARAMETER>
+       <DBFIELD>DDSHF4CTRL</DBFIELD>
+      </RSCHA>
+     </CHANGING>
+     <TABLES>
+      <RSTBL>
+       <PARAMETER>SHLP_TAB</PARAMETER>
+       <TYP>SHLP_DESCT</TYP>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>RECORD_TAB</PARAMETER>
+       <DBSTRUCT>SEAHLPRES</DBSTRUCT>
+      </RSTBL>
+     </TABLES>
+     <DOCUMENTATION>
+      <RSFDO>
+       <PARAMETER>SHLP_TAB</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Table of elementary search helps</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>RECORD_TAB</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Hit list</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>SHLP</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Single (current) search help</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>CALLCONTROL</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Control of the F4 process</STEXT>
+      </RSFDO>
+     </DOCUMENTATION>
+    </item>
+   </FUNCTIONS>
+   <LONGTEXTS_ZNEPT_QZ_F4_TRIVIA>
+    <item>
+     <DOKIL>
+      <ID>FU</ID>
+      <OBJECT>ZNEPT_QZ_F4_TRIVIA</OBJECT>
+      <LANGU>D</LANGU>
+      <TYP>T</TYP>
+      <VERSION>0009</VERSION>
+      <MASTERLANG>X</MASTERLANG>
+      <TXTLINES>00012</TXTLINES>
+      <DOKSTATE>A</DOKSTATE>
+     </DOKIL>
+     <HEAD>
+      <TDOBJECT>DOKU</TDOBJECT>
+      <TDNAME>ZNEPT_QZ_F4_TRIVIA</TDNAME>
+      <TDID>FU</TDID>
+      <TDSPRAS>D</TDSPRAS>
+      <TDFORM>S_DOCU_SHOW</TDFORM>
+      <TDSTYLE>S_DOCUS1</TDSTYLE>
+      <TDVERSION>00009</TDVERSION>
+      <TDLINESIZE>072</TDLINESIZE>
+     </HEAD>
+     <LINES>
+      <TLINE>
+       <TDFORMAT>U1</TDFORMAT>
+       <TDLINE>&amp;FUNCTIONALITY&amp;</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDFORMAT>AS</TDFORMAT>
+       <TDLINE>Dieser Baustein ermöglicht es der</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDLINE>&lt;DS:TX.DDDOK_SHLP_ELEMENTARY&gt;elementaren Suchhilfe&lt;/&gt; &lt;LS&gt;SFLIGHT&lt;/&gt;,</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDLINE>die Anzahl der freien Plätze der selektierten Flüge anzuzeigen, obwohl</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDLINE>diese Anzahl in der &lt;DS:DE.SELMETHOD&gt;Selektionsmethode&lt;/&gt; &lt;LS&gt;SFLIGHTS</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDFORMAT>=</TDFORMAT>
+       <TDLINE>&lt;/&gt; der Suchhilfe nicht als Feld enthalten ist. Vielmehr muß diese Zahl</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDLINE>aus der Anzahl der vorhandenen Sitzplätze (Feld SEATSMAX) und der</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDLINE>belegten Plätze (Feld SEATSOCC) ermittelt werden.</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDFORMAT>AS</TDFORMAT>
+       <TDLINE>Dieser Baustein liest nun nach der Selektion der Treffermenge und vor</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDLINE>ihrer Anzeige diese beiden Parameter aus und stellt ihre Differenz in</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDLINE>den Parameter SEATSFRE.</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDFORMAT>U1</TDFORMAT>
+       <TDLINE>&amp;EXAMPLE&amp;</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDFORMAT>AS</TDFORMAT>
+       <TDLINE>Testen Sie die Suchhilfe SFLIGHT in der Pflegetranaktion für</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDLINE>Suchhilfen, um die Wirkungsweise des Suchhilfe-Exits zu beobachten.</TDLINE>
+      </TLINE>
+      <TLINE/>
+      <TLINE>
+       <TDFORMAT>U1</TDFORMAT>
+       <TDLINE>&amp;FURTHER_SOURCES_OF_INF&amp;</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDFORMAT>AS</TDFORMAT>
+      </TLINE>
+     </LINES>
+    </item>
+   </LONGTEXTS_ZNEPT_QZ_F4_TRIVIA>
+  </asx:values>
+ </asx:abap>
+</abapGit>

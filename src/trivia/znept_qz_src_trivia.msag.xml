@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_MSAG" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <T100A>
+    <ARBGB>ZNEPT_QZ_SRC_TRIVIA</ARBGB>
+    <MASTERLANG>E</MASTERLANG>
+    <STEXT>Neptune Quiz App: Trivia</STEXT>
+   </T100A>
+   <T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZNEPT_QZ_SRC_TRIVIA</ARBGB>
+     <MSGNR>000</MSGNR>
+     <TEXT>Returned results successfully from Trivia</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZNEPT_QZ_SRC_TRIVIA</ARBGB>
+     <MSGNR>001</MSGNR>
+     <TEXT>Trivia doesn&apos;t have enough questions for your query</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZNEPT_QZ_SRC_TRIVIA</ARBGB>
+     <MSGNR>002</MSGNR>
+     <TEXT>Invalid parameter passed in Trivia request</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZNEPT_QZ_SRC_TRIVIA</ARBGB>
+     <MSGNR>003</MSGNR>
+     <TEXT>Trivia session token not found</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZNEPT_QZ_SRC_TRIVIA</ARBGB>
+     <MSGNR>004</MSGNR>
+     <TEXT>Session token has returned all possible questions (reset the token)</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZNEPT_QZ_SRC_TRIVIA</ARBGB>
+     <MSGNR>005</MSGNR>
+     <TEXT>Too many API requests have occurred (wait 5 seconds)</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZNEPT_QZ_SRC_TRIVIA</ARBGB>
+     <MSGNR>999</MSGNR>
+     <TEXT>&amp;1 &amp;2 &amp;3 &amp;4</TEXT>
+    </T100>
+   </T100>
+  </asx:values>
+ </asx:abap>
+</abapGit>
