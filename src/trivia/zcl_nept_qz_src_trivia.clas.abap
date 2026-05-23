@@ -5,6 +5,9 @@ CLASS zcl_nept_qz_src_trivia DEFINITION
 
   PUBLIC SECTION.
 
+    CONSTANTS:
+        gc_src_name TYPE string VALUE 'TRIVIA'.
+
     CLASS-METHODS get_quiz
       IMPORTING
         iv_count        TYPE int2
@@ -37,6 +40,7 @@ ENDCLASS.
 CLASS zcl_nept_qz_src_trivia IMPLEMENTATION.
 
   METHOD get_quiz.
+* ----------------------------------------------------------------
 
     DATA: ls_api_quiz       TYPE zcl_nept_qz_src_trivia_api=>ty_api_quiz_s,
           lv_api_count      TYPE zcl_nept_qz_src_trivia_api=>ty_api_count,
@@ -110,6 +114,7 @@ CLASS zcl_nept_qz_src_trivia IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD get_categories.
+* ----------------------------------------------------------------
 
     DATA: ls_api_category    TYPE zcl_nept_qz_src_trivia_api=>ty_api_category_s,
           lt_trivia_category TYPE znept_qz_trivia_categ_t.
@@ -147,6 +152,7 @@ CLASS zcl_nept_qz_src_trivia IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD get_count_overall.
+* ----------------------------------------------------------------
 
     DATA: ls_api_count TYPE zcl_nept_qz_src_trivia_api=>ty_api_count_s.
 
