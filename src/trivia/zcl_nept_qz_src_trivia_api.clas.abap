@@ -294,6 +294,7 @@ CLASS zcl_nept_qz_src_trivia_api IMPLEMENTATION.
 
     IF NOT lv_response IS INITIAL.
 
+* long names in JSON structure issue
       ls_name_mapping-abap = 'total_num_of_verified_question'.
       ls_name_mapping-json = 'total_num_of_verified_questions'.
       INSERT ls_name_mapping INTO TABLE lt_name_mappings.

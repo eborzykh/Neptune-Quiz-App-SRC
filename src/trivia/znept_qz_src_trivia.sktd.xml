@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_SKTD" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <SKTD>
+    <METADATA>
+     <DESCRIPTION>Documentation for ZNEPT_QZ_SRC_TRIVIA</DESCRIPTION>
+     <LANGUAGE>EN</LANGUAGE>
+     <ABAP_LANGU_VERSION>0</ABAP_LANGU_VERSION>
+    </METADATA>
+    <REF_OBJECT>
+     <TYPE>DEVC/K</TYPE>
+     <NAME>ZNEPT_QZ_SRC_TRIVIA</NAME>
+    </REF_OBJECT>
+    <ELEMENTS>
+     <item>
+      <ID>ZNEPT_QZ_SRC_TRIVIA</ID>
+      <REF>
+       <URI>/sap/bc/adt/packages/znept_qz_src_trivia</URI>
+       <TYPE>DEVC/K</TYPE>
+       <NAME>ZNEPT_QZ_SRC_TRIVIA</NAME>
+       <DESCRIPTION>Neptune Quiz Application (Trivia)</DESCRIPTION>
+      </REF>
+      <TEXT>IyBUcml2aWEgQVBJIAoKIyMgQVBJIERvY3VtZW50YXRpb24KCjxodHRwczovL29wZW50ZGIuY29t
+L2FwaV9jb25maWcucGhwPgoKIyMgUmV0dXJuIENvZGUKCnwgQ29kZSB8IERlc2NyaXB0aW9uIHwK
+fC0tLS0tLS0tLS18LS0tLS0tLS0tLXwKfCAwIHwgU3VjY2VzcyBSZXR1cm5lZCByZXN1bHRzIHN1
+Y2Nlc3NmdWxseS4gfAp8IDEgfCBObyBSZXN1bHRzIENvdWxkIG5vdCByZXR1cm4gcmVzdWx0cy4g
+VGhlIEFQSSBkb2Vzbid0IGhhdmUgZW5vdWdoIHF1ZXN0aW9ucyBmb3IgeW91ciBxdWVyeS4gKEV4
+LiBBc2tpbmcgZm9yIDUwIFF1ZXN0aW9ucyBpbiBhIENhdGVnb3J5IHRoYXQgb25seSBoYXMgMjAu
+KSB8CnwgMiB8IEludmFsaWQgUGFyYW1ldGVyIENvbnRhaW5zIGFuIGludmFsaWQgcGFyYW1ldGVy
+LiBBcmd1ZW1lbnRzIHBhc3NlZCBpbiBhcmVuJ3QgdmFsaWQuIChFeC4gQW1vdW50ID0gRml2ZSkg
+fAp8IDMgfCBUb2tlbiBOb3QgRm91bmQgU2Vzc2lvbiBUb2tlbiBkb2VzIG5vdCBleGlzdC4gfAp8
+IDQgfCBUb2tlbiBFbXB0eSBTZXNzaW9uIFRva2VuIGhhcyByZXR1cm5lZCBhbGwgcG9zc2libGUg
+cXVlc3Rpb25zIGZvciB0aGUgc3BlY2lmaWVkIHF1ZXJ5LiBSZXNldHRpbmcgdGhlIFRva2VuIGlz
+IG5lY2Vzc2FyeS4gfAp8IDUgfCBSYXRlIExpbWl0IFRvbyBtYW55IHJlcXVlc3RzIGhhdmUgb2Nj
+dXJyZWQuIEVhY2ggSVAgY2FuIG9ubHkgYWNjZXNzIHRoZSBBUEkgb25jZSBldmVyeSA1IHNlY29u
+ZHMuIHwKCgojIyBVUkwgRXhhbXBsZXMKCjxodHRwczovL29wZW50ZGIuY29tL2FwaS5waHA/YW1v
+dW50PTEwPgo8aHR0cHM6Ly9vcGVudGRiLmNvbS9hcGkucGhwP2Ftb3VudD0xMCZjYXRlZ29yeT0y
+NCZkaWZmaWN1bHR5PWVhc3kmdHlwZT1ib29sZWFuPgoKCiMjIFNvbWUgU2VydmljZSBSZXF1ZXN0
+cwoKPGh0dHBzOi8vb3BlbnRkYi5jb20vYXBpX2NvdW50X2dsb2JhbC5waHA+CjxodHRwczovL29w
+ZW50ZGIuY29tL2FwaV9jYXRlZ29yeS5waHA+</TEXT>
+      <CAN_HAVE_DOCUMENTATION>X</CAN_HAVE_DOCUMENTATION>
+      <LINKS>
+       <item>
+        <HREF>/sap/bc/adt/repository/informationsystem/elementinfo?path=znept_qz_src_trivia&amp;type=devc/k</HREF>
+        <REL>http://www.sap.com/adt/relations/elementinfo</REL>
+        <TYPE>application/vnd.sap.adt.elementinfo+xml</TYPE>
+        <TITLE>Show Element Information</TITLE>
+       </item>
+      </LINKS>
+      <SHORTTEXT_OBLIGATION>forbidden</SHORTTEXT_OBLIGATION>
+      <LONGTEXT_OBLIGATION>optional</LONGTEXT_OBLIGATION>
+     </item>
+    </ELEMENTS>
+   </SKTD>
+  </asx:values>
+ </asx:abap>
+</abapGit>
