@@ -17,18 +17,24 @@ CLASS zcl_nept_qz_src_trivia DEFINITION
       EXPORTING
         et_db_parts     TYPE znept_qz_db_parts_t
         et_db_questions TYPE znept_qz_db_questions_t
-        et_db_variants  TYPE znept_qz_db_variants_t.
+        et_db_variants  TYPE znept_qz_db_variants_t
+      RAISING
+        zcx_nept_qz_src_trivia_api.
 
     CLASS-METHODS get_categories
       EXPORTING
-        et_category TYPE znept_qz_trivia_categ_t.
+        et_category TYPE znept_qz_trivia_categ_t
+      RAISING
+        zcx_nept_qz_src_trivia_api.
 
     CLASS-METHODS get_count_overall
       EXPORTING
         ev_questions          TYPE i
         ev_pending_questions  TYPE i
         ev_verified_questions TYPE i
-        ev_rejected_questions TYPE i.
+        ev_rejected_questions TYPE i
+      RAISING
+        zcx_nept_qz_src_trivia_api.
 
   PROTECTED SECTION.
   PRIVATE SECTION.
@@ -40,7 +46,6 @@ ENDCLASS.
 CLASS zcl_nept_qz_src_trivia IMPLEMENTATION.
 
   METHOD get_quiz.
-* ----------------------------------------------------------------
 
     DATA: ls_api_quiz       TYPE zcl_nept_qz_src_trivia_api=>ty_api_quiz_s,
           lv_api_count      TYPE zcl_nept_qz_src_trivia_api=>ty_api_count,
@@ -114,7 +119,6 @@ CLASS zcl_nept_qz_src_trivia IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD get_categories.
-* ----------------------------------------------------------------
 
     DATA: ls_api_category    TYPE zcl_nept_qz_src_trivia_api=>ty_api_category_s,
           lt_trivia_category TYPE znept_qz_trivia_categ_t.
@@ -152,7 +156,6 @@ CLASS zcl_nept_qz_src_trivia IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD get_count_overall.
-* ----------------------------------------------------------------
 
     DATA: ls_api_count TYPE zcl_nept_qz_src_trivia_api=>ty_api_count_s.
 

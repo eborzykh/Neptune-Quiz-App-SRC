@@ -47,6 +47,18 @@
     <T100>
      <SPRSL>E</SPRSL>
      <ARBGB>ZNEPT_QZ_SRC_TRIVIA</ARBGB>
+     <MSGNR>100</MSGNR>
+     <TEXT>Unknown response code &amp;1</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZNEPT_QZ_SRC_TRIVIA</ARBGB>
+     <MSGNR>200</MSGNR>
+     <TEXT>Blank response received</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZNEPT_QZ_SRC_TRIVIA</ARBGB>
      <MSGNR>999</MSGNR>
      <TEXT>&amp;1 &amp;2 &amp;3 &amp;4</TEXT>
     </T100>

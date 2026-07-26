@@ -55,14 +55,35 @@ CLASS zcx_nept_qz_src_trivia_api DEFINITION
         attr2 TYPE scx_attrname VALUE '',
         attr3 TYPE scx_attrname VALUE '',
         attr4 TYPE scx_attrname VALUE '',
-      END OF limit_requests.
+      END OF limit_requests,
+
+      BEGIN OF response_unknown,
+        msgid TYPE symsgid VALUE message_class,
+        msgno TYPE symsgno VALUE '100',
+        attr1 TYPE scx_attrname VALUE 'MV_RESPONSE_CODE',
+        attr2 TYPE scx_attrname VALUE '',
+        attr3 TYPE scx_attrname VALUE '',
+        attr4 TYPE scx_attrname VALUE '',
+      END OF response_unknown,
+
+      BEGIN OF no_response,
+        msgid TYPE symsgid VALUE message_class,
+        msgno TYPE symsgno VALUE '200',
+        attr1 TYPE scx_attrname VALUE '',
+        attr2 TYPE scx_attrname VALUE '',
+        attr3 TYPE scx_attrname VALUE '',
+        attr4 TYPE scx_attrname VALUE '',
+      END OF no_response.
+
+    DATA mv_response_code TYPE i READ-ONLY.
 
     METHODS:
       constructor
         IMPORTING
-          textid   LIKE if_t100_message=>t100key         OPTIONAL
-          previous LIKE previous                         OPTIONAL
-          severity TYPE if_abap_behv_message=>t_severity DEFAULT  if_abap_behv_message=>severity-error
+          textid        LIKE if_t100_message=>t100key         OPTIONAL
+          response_code LIKE mv_response_code                 OPTIONAL
+          previous      LIKE previous                         OPTIONAL
+          severity      TYPE if_abap_behv_message=>t_severity DEFAULT  if_abap_behv_message=>severity-error
             PREFERRED PARAMETER textid.
 
   PROTECTED SECTION.
@@ -75,6 +96,8 @@ CLASS zcx_nept_qz_src_trivia_api IMPLEMENTATION.
     super->constructor( previous = previous ).
 
     me->if_abap_behv_message~m_severity = severity.
+
+    me->mv_response_code = response_code.
 
     CLEAR me->textid.
     IF textid IS INITIAL.

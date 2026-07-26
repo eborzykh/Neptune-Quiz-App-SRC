@@ -12,7 +12,11 @@ FUNCTION znept_qz_f4_trivia.
 
   IF callcontrol-step = 'SELECT'.
 
-    zcl_nept_qz_src_trivia=>get_categories( IMPORTING et_category = lt_trivia_category ).
+    TRY.
+        zcl_nept_qz_src_trivia=>get_categories( IMPORTING et_category = lt_trivia_category ).
+      CATCH zcx_nept_qz_src_trivia_api.
+        CLEAR lt_trivia_category.
+    ENDTRY.
 
     CALL FUNCTION 'F4UT_RESULTS_MAP'
       TABLES
