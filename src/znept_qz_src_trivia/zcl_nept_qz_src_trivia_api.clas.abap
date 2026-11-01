@@ -113,6 +113,10 @@ CLASS zcl_nept_qz_src_trivia_api DEFINITION
       RAISING
         zcx_nept_qz_src_trivia_api.
 
+    CLASS-METHODS check_availability
+      RAISING
+        zcx_nept_qz_src_trivia_api.
+
   PROTECTED SECTION.
   PRIVATE SECTION.
 
@@ -133,7 +137,10 @@ CLASS zcl_nept_qz_src_trivia_api DEFINITION
 
 ENDCLASS.
 
+
+
 CLASS zcl_nept_qz_src_trivia_api IMPLEMENTATION.
+
 
   METHOD get_categories.
 
@@ -146,6 +153,29 @@ CLASS zcl_nept_qz_src_trivia_api IMPLEMENTATION.
         es_response   = et_category.
 
   ENDMETHOD.
+
+
+  METHOD get_count.
+
+    DATA: lt_name_mappings TYPE /ui2/cl_json=>name_mappings.
+
+    CLEAR es_count.
+
+* long names in JSON structure issue
+    lt_name_mappings = VALUE #( ( abap = 'total_num_of_verified_question'
+                                  json = 'total_num_of_verified_questions' )
+                                ( abap = 'total_num_of_rejected_question'
+                                  json = 'total_num_of_rejected_questions' ) ).
+
+    CALL METHOD process_request
+      EXPORTING
+        iv_url_script    = lc_s_api_count_global
+        it_name_mappings = lt_name_mappings
+      IMPORTING
+        es_response      = es_count.
+
+  ENDMETHOD.
+
 
   METHOD get_quiz.
 
@@ -176,6 +206,7 @@ CLASS zcl_nept_qz_src_trivia_api IMPLEMENTATION.
 
   ENDMETHOD.
 
+
   METHOD get_token.
 
     DATA: lv_url           TYPE string.
@@ -193,43 +224,6 @@ CLASS zcl_nept_qz_src_trivia_api IMPLEMENTATION.
 
   ENDMETHOD.
 
-  METHOD reset_token.
-
-    DATA: lv_url             TYPE string.
-
-    CLEAR es_response.
-
-    lv_url = |command=reset&token={ iv_token }|.
-
-    CALL METHOD process_request
-      EXPORTING
-        iv_url_param  = lv_url
-        iv_url_script = lc_s_api
-      IMPORTING
-        es_response   = es_response.
-
-  ENDMETHOD.
-
-  METHOD get_count.
-
-    DATA: lt_name_mappings TYPE /ui2/cl_json=>name_mappings.
-
-    CLEAR es_count.
-
-* long names in JSON structure issue
-    lt_name_mappings = VALUE #( ( abap = 'total_num_of_verified_question'
-                                  json = 'total_num_of_verified_questions' )
-                                ( abap = 'total_num_of_rejected_question'
-                                  json = 'total_num_of_rejected_questions' ) ).
-
-    CALL METHOD process_request
-      EXPORTING
-        iv_url_script    = lc_s_api_count_global
-        it_name_mappings = lt_name_mappings
-      IMPORTING
-        es_response      = es_count.
-
-  ENDMETHOD.
 
   METHOD process_request.
 
@@ -333,6 +327,30 @@ CLASS zcl_nept_qz_src_trivia_api IMPLEMENTATION.
       ENDIF.
 
     ENDIF.
+
+  ENDMETHOD.
+
+
+  METHOD reset_token.
+
+    DATA: lv_url             TYPE string.
+
+    CLEAR es_response.
+
+    lv_url = |command=reset&token={ iv_token }|.
+
+    CALL METHOD process_request
+      EXPORTING
+        iv_url_param  = lv_url
+        iv_url_script = lc_s_api
+      IMPORTING
+        es_response   = es_response.
+
+  ENDMETHOD.
+
+  METHOD check_availability.
+
+* RAISE EXCEPTION TYPE zcx_nept_qz_src_trivia_api EXPORTING textid = zcx_nept_qz_src_trivia_api=>not_available.
 
   ENDMETHOD.
 

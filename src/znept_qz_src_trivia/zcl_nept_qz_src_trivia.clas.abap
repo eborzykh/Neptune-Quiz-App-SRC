@@ -8,6 +8,10 @@ CLASS zcl_nept_qz_src_trivia DEFINITION
     CONSTANTS:
         gc_src_name TYPE string VALUE 'TRIVIA'.
 
+    CONSTANTS:
+      gc_max_questions TYPE int2 VALUE 20,
+      gc_def_questions TYPE int2 VALUE 20.
+
     CLASS-METHODS get_quiz
       IMPORTING
         iv_count        TYPE int2
@@ -36,6 +40,10 @@ CLASS zcl_nept_qz_src_trivia DEFINITION
       RAISING
         zcx_nept_qz_src_trivia_api.
 
+    CLASS-METHODS check_availability
+      RAISING
+        zcx_nept_qz_src_trivia_api.
+
   PROTECTED SECTION.
   PRIVATE SECTION.
 
@@ -43,7 +51,46 @@ CLASS zcl_nept_qz_src_trivia DEFINITION
 
 ENDCLASS.
 
+
+
 CLASS zcl_nept_qz_src_trivia IMPLEMENTATION.
+
+
+  METHOD get_categories.
+
+    DATA: ls_api_category    TYPE zcl_nept_qz_src_trivia_api=>ty_api_category_s,
+          lt_trivia_category TYPE znept_qz_trivia_categ_t.
+
+    CLEAR et_category.
+
+    zcl_nept_qz_src_trivia_api=>get_categories( IMPORTING et_category = ls_api_category ).
+
+    LOOP AT ls_api_category-trivia_categories ASSIGNING FIELD-SYMBOL(<fs_api_category>).
+      APPEND INITIAL LINE TO lt_trivia_category ASSIGNING FIELD-SYMBOL(<fs_trivia_category>).
+      <fs_trivia_category>-category_id = <fs_api_category>-id.
+      <fs_trivia_category>-category_name = unescape( <fs_api_category>-name ).
+    ENDLOOP.
+
+    et_category = lt_trivia_category.
+
+  ENDMETHOD.
+
+
+  METHOD get_count_overall.
+
+    DATA: ls_api_count TYPE zcl_nept_qz_src_trivia_api=>ty_api_count_s.
+
+    CLEAR: ev_questions, ev_pending_questions, ev_verified_questions, ev_rejected_questions.
+
+    zcl_nept_qz_src_trivia_api=>get_count( IMPORTING es_count = ls_api_count ).
+
+    ev_questions = ls_api_count-overall-total_num_of_questions.
+    ev_pending_questions = ls_api_count-overall-total_num_of_pending_questions.
+    ev_verified_questions = ls_api_count-overall-total_num_of_verified_question.
+    ev_rejected_questions = ls_api_count-overall-total_num_of_rejected_question.
+
+  ENDMETHOD.
+
 
   METHOD get_quiz.
 
@@ -118,24 +165,6 @@ CLASS zcl_nept_qz_src_trivia IMPLEMENTATION.
 
   ENDMETHOD.
 
-  METHOD get_categories.
-
-    DATA: ls_api_category    TYPE zcl_nept_qz_src_trivia_api=>ty_api_category_s,
-          lt_trivia_category TYPE znept_qz_trivia_categ_t.
-
-    CLEAR et_category.
-
-    zcl_nept_qz_src_trivia_api=>get_categories( IMPORTING et_category = ls_api_category ).
-
-    LOOP AT ls_api_category-trivia_categories ASSIGNING FIELD-SYMBOL(<fs_api_category>).
-      APPEND INITIAL LINE TO lt_trivia_category ASSIGNING FIELD-SYMBOL(<fs_trivia_category>).
-      <fs_trivia_category>-category_id = <fs_api_category>-id.
-      <fs_trivia_category>-category_name = unescape( <fs_api_category>-name ).
-    ENDLOOP.
-
-    et_category = lt_trivia_category.
-
-  ENDMETHOD.
 
   METHOD unescape.
 
@@ -155,18 +184,9 @@ CLASS zcl_nept_qz_src_trivia IMPLEMENTATION.
 
   ENDMETHOD.
 
-  METHOD get_count_overall.
+  METHOD check_availability.
 
-    DATA: ls_api_count TYPE zcl_nept_qz_src_trivia_api=>ty_api_count_s.
-
-    CLEAR: ev_questions, ev_pending_questions, ev_verified_questions, ev_rejected_questions.
-
-    zcl_nept_qz_src_trivia_api=>get_count( IMPORTING es_count = ls_api_count ).
-
-    ev_questions = ls_api_count-overall-total_num_of_questions.
-    ev_pending_questions = ls_api_count-overall-total_num_of_pending_questions.
-    ev_verified_questions = ls_api_count-overall-total_num_of_verified_question.
-    ev_rejected_questions = ls_api_count-overall-total_num_of_rejected_question.
+*
 
   ENDMETHOD.
 

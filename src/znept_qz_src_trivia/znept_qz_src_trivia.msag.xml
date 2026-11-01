@@ -59,6 +59,12 @@
     <T100>
      <SPRSL>E</SPRSL>
      <ARBGB>ZNEPT_QZ_SRC_TRIVIA</ARBGB>
+     <MSGNR>500</MSGNR>
+     <TEXT>Service not available</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZNEPT_QZ_SRC_TRIVIA</ARBGB>
      <MSGNR>999</MSGNR>
      <TEXT>&amp;1 &amp;2 &amp;3 &amp;4</TEXT>
     </T100>

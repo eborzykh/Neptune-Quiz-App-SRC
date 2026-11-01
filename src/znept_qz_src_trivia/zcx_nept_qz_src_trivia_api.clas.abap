@@ -73,7 +73,16 @@ CLASS zcx_nept_qz_src_trivia_api DEFINITION
         attr2 TYPE scx_attrname VALUE '',
         attr3 TYPE scx_attrname VALUE '',
         attr4 TYPE scx_attrname VALUE '',
-      END OF no_response.
+      END OF no_response,
+
+      BEGIN OF not_available,
+        msgid TYPE symsgid VALUE message_class,
+        msgno TYPE symsgno VALUE '500',
+        attr1 TYPE scx_attrname VALUE '',
+        attr2 TYPE scx_attrname VALUE '',
+        attr3 TYPE scx_attrname VALUE '',
+        attr4 TYPE scx_attrname VALUE '',
+      END OF not_available.
 
     DATA mv_response_code TYPE i READ-ONLY.
 
@@ -90,7 +99,10 @@ CLASS zcx_nept_qz_src_trivia_api DEFINITION
   PRIVATE SECTION.
 ENDCLASS.
 
-CLASS zcx_nept_qz_src_trivia_api IMPLEMENTATION.
+
+
+CLASS ZCX_NEPT_QZ_SRC_TRIVIA_API IMPLEMENTATION.
+
 
   METHOD constructor ##ADT_SUPPRESS_GENERATION.
     super->constructor( previous = previous ).

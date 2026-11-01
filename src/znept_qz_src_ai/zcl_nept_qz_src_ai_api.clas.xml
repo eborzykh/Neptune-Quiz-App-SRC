@@ -3,9 +3,9 @@
  <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
   <asx:values>
    <VSEOCLASS>
-    <CLSNAME>ZCL_NEPT_QZ_SRC_TRIVIA</CLSNAME>
+    <CLSNAME>ZCL_NEPT_QZ_SRC_AI_API</CLSNAME>
     <LANGU>E</LANGU>
-    <DESCRIPT>Neptune Quiz App (CRC): Trivia Access</DESCRIPT>
+    <DESCRIPT>Neptune Quiz App (SRC): AI API call</DESCRIPT>
     <STATE>1</STATE>
     <CLSCCINCL>X</CLSCCINCL>
     <FIXPT>X</FIXPT>
