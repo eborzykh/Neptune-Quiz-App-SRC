@@ -118,7 +118,7 @@ CLASS zcl_nept_qz_src_ai_api IMPLEMENTATION.
 * models list response
 
     TYPES: BEGIN OF ty_modeldata_s,
-             id       TYPE i,
+             id       TYPE string,
              object   TYPE string,
              created  TYPE i, " Unix timestamp in seconds
              owned_by TYPE string,

@@ -49,8 +49,10 @@ CLASS zcl_nept_qz_src_ai DEFINITION
         zcx_nept_qz_src_ai_api.
 
     CLASS-METHODS get_models
+      IMPORTING
+        iv_api_key TYPE znept_qz_ai_api_key_de
       EXPORTING
-        et_model TYPE znept_qz_ai_model_t
+        et_model   TYPE znept_qz_ai_model_t
       RAISING
         zcx_nept_qz_src_ai_api.
 
@@ -102,8 +104,13 @@ CLASS zcl_nept_qz_src_ai IMPLEMENTATION.
           lt_db_questions TYPE znept_qz_db_questions_t,
           lt_db_variants  TYPE znept_qz_db_variants_t.
 
-    DATA: iv_prompt_task TYPE string,
+    DATA: lv_prompt_task TYPE string,
           lv_p_level     TYPE string.
+
+    DATA: lt_sync_by_ra   TYPE RANGE OF znept_qz_sync_user_de,
+          ls_db_tests_key TYPE znept_qz_db_tests_key_s,
+          lt_db_metrics   TYPE znept_qz_db_metrics_t,
+          lv_attempts     TYPE i.
 
     CLEAR: et_db_parts, et_db_questions, et_db_variants, es_usage.
 
@@ -121,33 +128,93 @@ CLASS zcl_nept_qz_src_ai IMPLEMENTATION.
       RAISE EXCEPTION TYPE zcx_nept_qz_src_ai_api EXPORTING textid = zcx_nept_qz_src_ai_api=>read_referenced_error.
     ENDIF.
 
-    LOOP AT lt_db_questions_ref INTO DATA(ls_db_questions_ref).
-      APPEND INITIAL LINE TO lt_sample ASSIGNING FIELD-SYMBOL(<fs_sample>).
-      <fs_sample>-question = ls_db_questions_ref-question.
-      <fs_sample>-weight = 0.
-    ENDLOOP.
+    IF NOT iv_progress IS INITIAL.
+
+      IF iv_progress = 'personal'.
+        lt_sync_by_ra = VALUE #( ( sign = 'I' option = 'EQ' low = sy-uname ) ).
+      ENDIF.
+
+      SELECT SINGLE test_id, upload_on, upload_at
+        FROM znept_qz_tst
+        WHERE test_id = @is_db_tests-test_id
+        INTO ( @ls_db_tests_key-test_id, @ls_db_tests_key-upload_on, @ls_db_tests_key-upload_at ).
+
+      IF sy-subrc = 0.
+
+        SELECT * FROM znept_qz_mts
+          INTO TABLE @DATA(lt_db_sync)
+          WHERE sync_by IN @lt_sync_by_ra
+            AND test_id = @ls_db_tests_key-test_id AND upload_on = @ls_db_tests_key-upload_on AND upload_at = @ls_db_tests_key-upload_at.
+
+        IF sy-subrc = 0 AND NOT lt_db_sync IS INITIAL.
+
+          SELECT * FROM znept_qz_mtd
+            INTO TABLE @lt_db_metrics
+            FOR ALL ENTRIES IN @lt_db_sync
+            WHERE sync_id = @lt_db_sync-sync_id AND ( progress <> @zcl_nept_qz_data_provider=>gc_progress_unanswered AND progress <> @zcl_nept_qz_data_provider=>gc_progress_correct ).
+          IF sy-subrc = 0.
+*
+          ENDIF.
+        ENDIF.
+      ENDIF.
+
+      LOOP AT lt_db_questions_ref INTO DATA(ls_db_questions_ref).
+        APPEND INITIAL LINE TO lt_sample ASSIGNING FIELD-SYMBOL(<fs_sample>).
+        <fs_sample>-question = ls_db_questions_ref-question.
+
+        lv_attempts = 0.
+        LOOP AT lt_db_metrics INTO DATA(ls_db_metrics) WHERE question_id = ls_db_questions_ref-question_id.
+
+          CASE ls_db_metrics-progress.
+            WHEN zcl_nept_qz_data_provider=>gc_progress_incorrect.
+              <fs_sample>-weight = <fs_sample>-weight + 4.
+            WHEN zcl_nept_qz_data_provider=>gc_progress_improved_low.
+              <fs_sample>-weight = <fs_sample>-weight + 3.
+            WHEN zcl_nept_qz_data_provider=>gc_progress_improved_medium.
+              <fs_sample>-weight = <fs_sample>-weight + 2.
+            WHEN zcl_nept_qz_data_provider=>gc_progress_improved_high.
+              <fs_sample>-weight = <fs_sample>-weight + 1.
+          ENDCASE.
+
+          lv_attempts = lv_attempts + 1.
+        ENDLOOP.
+        IF lv_attempts > 0.
+          <fs_sample>-weight = <fs_sample>-weight / lv_attempts.
+        ENDIF.
+      ENDLOOP.
+    ENDIF.
 
     lv_p_level = iv_difficulty.
 
-    iv_prompt_task =
-      |You are generating new quiz questions based on the patterns in the examples.| && gc_eol &&
-      |Using the example questions provided, analyze their topic and difficulty.| && gc_eol &&
-      |Then produce { gc_pc_count } new questions that match these characteristics.| && gc_eol &&
-      |Ensure the new questions are original but clearly aligned with the topic in the examples.| && gc_eol &&
-      |Avoid duplicates, near-duplicates, or trivial variations of the examples.| && gc_eol &&
-*      |If there is not enough token budget to generate { gc_pc_count } high-quality questions, generate fewer questions instead.| && gc_eol &&
-      |New question must be | &&
+    lv_prompt_task =
+      |You are generating new quiz questions based on the patterns and weight from 0 to 4 that represents how difficult the question was for me to answer.| && gc_eol &&
+      |Analyze the topics, concepts, and patterns covered by the following example questions:| && gc_eol.
+
+    lv_prompt_task = lv_prompt_task && '[' && gc_eol.
+    LOOP AT lt_sample INTO DATA(ls_sample).
+      IF sy-tabix > 1.
+        lv_prompt_task = lv_prompt_task && ',' && gc_eol.
+      ENDIF.
+      lv_prompt_task = lv_prompt_task && '{' && gc_eol && |"question": "{ ls_sample-question }",| && gc_eol && |"weight": { ls_sample-weight }| && gc_eol && '}'.
+    ENDLOOP.
+    lv_prompt_task = lv_prompt_task && gc_eol && ']' && gc_eol.
+
+    lv_prompt_task = lv_prompt_task &&
+      |Infer my strengths and weaknesses from the assigned weights and prioritize areas where I struggled most.| && gc_eol &&
+      |Generate { gc_pc_count } new quiz questions that focuses on topics associated with higher-weight questions.| && gc_eol &&
+      |New questions must be | &&
         COND #( WHEN NOT lv_p_level IS INITIAL
         THEN lv_p_level  && | to answer than|
-        ELSE |with the same lever of difficulty and complexity as| ) && | provided in the following examples.| && gc_eol.
-
-    LOOP AT lt_sample INTO DATA(ls_sample).
-      iv_prompt_task = iv_prompt_task && |Example { sy-tabix }: | && ls_sample-question && gc_eol.
-    ENDLOOP.
+        ELSE |with the same lever of difficulty and complexity as| ) && | provided in the examples.| && gc_eol &&
+      |Ensure the new questions are original but clearly aligned with the topic in the examples.| && gc_eol &&
+      |Avoid duplicates, near-duplicates, or trivial variations of the examples.| && gc_eol &&
+      |Do not create trick questions, misleading questions, or "gotcha" questions.| && gc_eol &&
+      |The objective is to assess understanding, not confuse the learner.| && gc_eol.
+*      |If there is not enough token budget to generate { gc_pc_count } high-quality questions, generate fewer questions instead.| && gc_eol &&
 
     CALL METHOD get_quiz
       EXPORTING
-        iv_prompt_task  = iv_prompt_task
+        iv_prompt_task  = lv_prompt_task
         iv_count        = iv_count
         iv_api_key      = iv_api_key
         iv_model        = iv_model
@@ -172,16 +239,15 @@ CLASS zcl_nept_qz_src_ai IMPLEMENTATION.
           lv_p_level     TYPE string.
 
     lv_prompt_task =
-      |You are generating new quiz questions based on the provided request.| && gc_eol &&
+      |You are generating new quiz questions based on the following request:| && gc_eol &&
+      |"""| && iv_topic && |"""| && gc_eol &&
       |Analyze the request to understand the topic and difficulty.| && gc_eol &&
       |Then produce { gc_pc_count } new questions.| && gc_eol &&
       |Ensure the new questions are clearly aligned with the original request.| && gc_eol &&
-      |Avoid duplicates, near-duplicates, or trivial variations.| && gc_eol.
+      |Avoid duplicates, near-duplicates, or trivial variations.| && gc_eol &&
+      |Do not create trick questions, misleading questions, or "gotcha" questions.| && gc_eol &&
+      |The objective is to assess understanding, not confuse the learner.| && gc_eol.
 *      |If there is not enough token budget to generate { gc_pc_count } high-quality questions, generate fewer questions instead.| && gc_eol.
-
-    lv_prompt_task = gc_eol && lv_prompt_task && gc_eol &&
-      |Request:| && gc_eol &&
-      iv_topic && gc_eol.
 
     CALL METHOD get_quiz
       EXPORTING
@@ -220,12 +286,14 @@ CLASS zcl_nept_qz_src_ai IMPLEMENTATION.
 
     CLEAR et_model.
 
+    lv_api_key = iv_api_key.
+
     zcl_nept_qz_src_ai_api=>get_models( EXPORTING iv_api_key = lv_api_key IMPORTING es_model = ls_api_model ).
 
     LOOP AT ls_api_model-models ASSIGNING FIELD-SYMBOL(<fs_api_model>).
       APPEND INITIAL LINE TO lt_model ASSIGNING FIELD-SYMBOL(<fs_model>).
-      <fs_model>-model = <fs_model>-model.
-      <fs_model>-model_name = <fs_model>-model.
+      <fs_model>-model = <fs_api_model>-model.
+      <fs_model>-model_name = <fs_api_model>-description.
     ENDLOOP.
 
     et_model = lt_model.

@@ -8,14 +8,19 @@ CLASS ltc_nept_qz_src_trivia DEFINITION FINAL FOR TESTING
       setup,
       "! Test get_categories method with valid data
       get_categories FOR TESTING,
+
       "! Test get_categories method raises exception
       get_categories_exception FOR TESTING,
+
       "! Test get_count_overall method with valid data
       get_count_overall FOR TESTING,
+
       "! Test get_count_overall method raises exception
       get_count_overall_exception FOR TESTING,
+
       "! Test get_quiz method with valid data
       get_quiz FOR TESTING,
+
       "! Test get_quiz method raises exception
       get_quiz_exception FOR TESTING.
 
